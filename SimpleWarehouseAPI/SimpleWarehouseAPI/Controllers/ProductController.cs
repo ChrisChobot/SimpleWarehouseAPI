@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SimpleWarehouseAPI.Models;
 using SimpleWarehouseAPI.Services;
 
 namespace SimpleWarehouseAPI.Controllers
 {
-    [Route("lel/")]
+    [Route("product/")]
     public class ProductController : Controller
     {
         private readonly IProductService _service;
