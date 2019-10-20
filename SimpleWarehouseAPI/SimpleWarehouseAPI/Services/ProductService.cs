@@ -29,7 +29,7 @@ namespace SimpleWarehouseAPI.Services
         
         public async Task<Product> GetProduct(Guid id)
         {
-            return await _context.Products.SingleAsync(x_ => x_.Id == id);
+            return await _context.Products.FirstOrDefaultAsync(x_ => x_.Id == id);
         }
 
         public async Task<Guid?> AddProduct(ProductCreateInputModel model)
