@@ -47,12 +47,12 @@ namespace Tests
                 };
         }
 
-        private ClientDbContext GetContext(Product[] products)
+        private MainDbContext GetContext(Product[] products)
         {
-            var options = new DbContextOptionsBuilder<ClientDbContext>()
-              .UseInMemoryDatabase(databaseName: "Add_writes_to_database")
+            var options = new DbContextOptionsBuilder<MainDbContext>()
+              .UseInMemoryDatabase(databaseName: "TestDatabase")
               .Options;
-            var context = new ClientDbContext(options);
+            var context = new MainDbContext(options);
 
             foreach (var id in context.Products.Select(e => e.Id))
             {

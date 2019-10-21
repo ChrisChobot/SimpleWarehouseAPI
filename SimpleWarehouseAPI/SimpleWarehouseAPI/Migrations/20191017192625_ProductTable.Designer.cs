@@ -10,7 +10,7 @@ using System;
 
 namespace SimpleWarehouseAPI.Migrations
 {
-    [DbContext(typeof(ClientDbContext))]
+    [DbContext(typeof(MainDbContext))]
     [Migration("20191017192625_ProductTable")]
     partial class ProductTable
     {

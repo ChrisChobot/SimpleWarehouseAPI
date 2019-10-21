@@ -3,13 +3,13 @@ using SimpleWarehouseAPI.Models;
 
 namespace SimpleWarehouseAPI
 {
-    public class ClientDbContext : DbContext
+    public class MainDbContext : DbContext
     {
         const string connectionString = "Server=Localhost;Database=SimpleWarehouseDB;Trusted_Connection=True;";
 
-        public ClientDbContext() : base() { }
+        public MainDbContext() : base() { }
 
-        public ClientDbContext(DbContextOptions<ClientDbContext> options) : base(options) { }
+        public MainDbContext(DbContextOptions<MainDbContext> options) : base(options) { }
 
         public DbSet<Product> Products { get; set; }
 

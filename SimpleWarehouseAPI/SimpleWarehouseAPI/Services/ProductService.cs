@@ -8,9 +8,9 @@ namespace SimpleWarehouseAPI.Services
 {
     public class ProductService : IProductService
     {
-        private readonly ClientDbContext _context;
+        private readonly MainDbContext _context;
 
-        public ProductService(ClientDbContext context)
+        public ProductService(MainDbContext context)
         {
             _context = context;
         }

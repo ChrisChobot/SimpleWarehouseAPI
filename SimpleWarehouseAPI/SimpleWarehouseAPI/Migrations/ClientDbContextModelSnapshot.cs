@@ -10,7 +10,7 @@ using System;
 
 namespace SimpleWarehouseAPI.Migrations
 {
-    [DbContext(typeof(ClientDbContext))]
+    [DbContext(typeof(MainDbContext))]
     partial class ClientDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

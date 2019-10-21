@@ -19,7 +19,7 @@ namespace SimpleWarehouseAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddScoped<ClientDbContext>();
+            services.AddScoped<MainDbContext>();
             services.AddScoped<IProductService, ProductService>();
         }
 
