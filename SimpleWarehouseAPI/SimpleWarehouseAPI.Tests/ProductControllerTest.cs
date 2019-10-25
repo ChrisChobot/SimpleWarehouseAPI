@@ -150,6 +150,48 @@ namespace Tests
         }
 
         [Test]
+        public async Task AddProductWithTooLongName()
+        {
+            ProductCreateInputModel newProductCreateModel = new ProductCreateInputModel()
+            {
+                Name = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                Price = 9
+            };
+
+            Product[] dbProducts;
+            var controller = GetController(out dbProducts);
+            Assert.Greater(dbProducts.Length, 0);
+
+            Guid? response = await controller.Post(newProductCreateModel);
+
+            Assert.IsTrue(response == null);
+
+            List<Product> responseProducts = await controller.Get();
+            Assert.AreEqual(dbProducts.Length, responseProducts.Count);
+        }
+
+        [Test]
+        public async Task AddProductWithMinusPrice()
+        {
+            ProductCreateInputModel newProductCreateModel = new ProductCreateInputModel()
+            {
+                Name = "minus price",
+                Price = -5
+            };
+
+            Product[] dbProducts;
+            var controller = GetController(out dbProducts);
+            Assert.Greater(dbProducts.Length, 0);
+
+            Guid? response = await controller.Post(newProductCreateModel);
+
+            Assert.IsTrue(response == null);
+
+            List<Product> responseProducts = await controller.Get();
+            Assert.AreEqual(dbProducts.Length, responseProducts.Count);
+        }
+
+        [Test]
         public async Task UpdateProduct()
         {
             Product[] dbProducts;
@@ -175,6 +217,84 @@ namespace Tests
             Assert.IsTrue(AreProductsSame(responseProduct, updatedProduct));
         }
 
+        //[Test]
+        //public async Task UpdateProductWithBadId()
+        //{
+        //    Product[] dbProducts;
+        //    var controller = GetController(out dbProducts);
+        //    Assert.Greater(dbProducts.Length, 0);
+
+        //    Random random = new Random();
+        //    int randomIndex = random.Next(0, dbProducts.Length);
+        //    var sourceProduct = dbProducts[randomIndex];
+
+        //    ProductUpdateInputModel newProductUpdateModel = new ProductUpdateInputModel()
+        //    {
+        //        Id = Guid.NewGuid(),
+        //        Name = "new id",
+        //        Price = 9
+        //    };
+
+        //    await controller.Put(newProductUpdateModel);
+
+        //    Product updatedProduct = new Product(newProductUpdateModel);
+        //    Product responseProduct = await controller.Get((Guid)updatedProduct.Id);
+
+        //    Assert.IsFalse(AreProductsSame(responseProduct, updatedProduct));
+        //}
+
+        [Test]
+        public async Task UpdateProductWithTooLongName()
+        {
+            Product[] dbProducts;
+            var controller = GetController(out dbProducts);
+            Assert.Greater(dbProducts.Length, 0);
+
+            Random random = new Random();
+            int randomIndex = random.Next(0, dbProducts.Length);
+            var sourceProduct = dbProducts[randomIndex];
+
+            ProductUpdateInputModel newProductUpdateModel = new ProductUpdateInputModel()
+            {
+                Id = sourceProduct.Id,
+                Name = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                Price = 9
+            };
+
+            await controller.Put(newProductUpdateModel);
+
+            Product updatedProduct = new Product(newProductUpdateModel);
+            Product responseProduct = await controller.Get((Guid)updatedProduct.Id);
+
+            Assert.IsFalse(AreProductsSame(responseProduct, updatedProduct));
+        }
+
+        [Test]
+        public async Task UpdateProductWithMnusPrice()
+        {
+            Product[] dbProducts;
+            var controller = GetController(out dbProducts);
+            Assert.Greater(dbProducts.Length, 0);
+
+            Random random = new Random();
+            int randomIndex = random.Next(0, dbProducts.Length);
+            var sourceProduct = dbProducts[randomIndex];
+
+            ProductUpdateInputModel newProductUpdateModel = new ProductUpdateInputModel()
+            {
+                Id = sourceProduct.Id,
+                Name = "minus price",
+                Price = -8
+            };
+
+            await controller.Put(newProductUpdateModel);
+
+            Product updatedProduct = new Product(newProductUpdateModel);
+            Product responseProduct = await controller.Get((Guid)updatedProduct.Id);
+
+            Assert.IsFalse(AreProductsSame(responseProduct, updatedProduct));
+        }
+
         [Test]
         public async Task DeleteProduct()
         {
@@ -194,6 +314,21 @@ namespace Tests
 
             Product response = await controller.Get((Guid)sourceProduct.Id);
             Assert.IsTrue(response == null);
+        }
+
+
+        [Test]
+        public async Task DeleteProductWithBadId()
+        {
+            Product[] dbProducts;
+            var controller = GetController(out dbProducts);
+
+            Assert.Greater(dbProducts.Length, 0);
+
+            await controller.Delete(Guid.NewGuid());
+
+            List<Product> responseProducts = await controller.Get();
+            Assert.AreEqual(dbProducts.Length, responseProducts.Count);
         }
         #endregion
     }

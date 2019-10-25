@@ -33,32 +33,19 @@ namespace SimpleWarehouseAPI.Controllers
         [HttpPost]
         public async Task<Guid?> Post([FromBody] ProductCreateInputModel model)
         {
-            if (ModelState.IsValid)
-            {
-                return await _service.AddProduct(model);
-            }
-            else
-            {
-                return null;
-            }
+            return await _service.AddProduct(model);
         }
 
         [HttpPut]
         public async Task Put([FromBody] ProductUpdateInputModel model)
         {
-            if (ModelState.IsValid)
-            {
-                await _service.UpdateProduct(model);
-            }
+            await _service.UpdateProduct(model);
         }
 
         [HttpDelete("{id}")]
         public async Task Delete(Guid id)
         {
-            if (ModelState.IsValid)
-            {
-                await _service.DeleteProduct(id);
-            }
+            await _service.DeleteProduct(id);
         }
     }
 }
