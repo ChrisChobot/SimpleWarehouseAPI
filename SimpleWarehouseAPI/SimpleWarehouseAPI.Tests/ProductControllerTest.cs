@@ -68,10 +68,14 @@ namespace Tests
 
         private bool AreProductsSame(Product response, Product source)
         {
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(source);
+           
             return
                 response.Id.Equals(source.Id) &&
                 response.Name.Equals(source.Name) &&
                 response.Price.Equals(source.Price);
+                
         }
         #endregion
 
@@ -217,31 +221,31 @@ namespace Tests
             Assert.IsTrue(AreProductsSame(responseProduct, updatedProduct));
         }
 
-        //[Test]
-        //public async Task UpdateProductWithBadId()
-        //{
-        //    Product[] dbProducts;
-        //    var controller = GetController(out dbProducts);
-        //    Assert.Greater(dbProducts.Length, 0);
+        [Test]
+        public async Task UpdateProductWithBadId()
+        {
+            Product[] dbProducts;
+            var controller = GetController(out dbProducts);
+            Assert.Greater(dbProducts.Length, 0);
 
-        //    Random random = new Random();
-        //    int randomIndex = random.Next(0, dbProducts.Length);
-        //    var sourceProduct = dbProducts[randomIndex];
+            Random random = new Random();
+            int randomIndex = random.Next(0, dbProducts.Length);
+            var sourceProduct = dbProducts[randomIndex];
 
-        //    ProductUpdateInputModel newProductUpdateModel = new ProductUpdateInputModel()
-        //    {
-        //        Id = Guid.NewGuid(),
-        //        Name = "new id",
-        //        Price = 9
-        //    };
+            ProductUpdateInputModel newProductUpdateModel = new ProductUpdateInputModel()
+            {
+                Id = Guid.NewGuid(),
+                Name = "new id",
+                Price = 9
+            };
 
-        //    await controller.Put(newProductUpdateModel);
+            await controller.Put(newProductUpdateModel);
 
-        //    Product updatedProduct = new Product(newProductUpdateModel);
-        //    Product responseProduct = await controller.Get((Guid)updatedProduct.Id);
+            Product updatedProduct = new Product(newProductUpdateModel);
+            Product responseProduct = await controller.Get((Guid)updatedProduct.Id);
 
-        //    Assert.IsFalse(AreProductsSame(responseProduct, updatedProduct));
-        //}
+            Assert.IsNull(responseProduct);
+        }
 
         [Test]
         public async Task UpdateProductWithTooLongName()
